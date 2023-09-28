@@ -10,13 +10,17 @@ public class Cell : MonoBehaviour
     {
         spriteRenderer ??= GetComponent<SpriteRenderer>();
         Color color = spriteRenderer.color;
-        if (!alive)
+        if (!alive && !aliveNextStep)
         {
-            color.a = 0f;
+            color.r = 0.75f;
+            color.g = 0.75f;
+            color.b = 0.75f;
+            color.a -= 0.33f;
         }
         else
         {
-            color.a = 1f;
+            color = Color.white;
+            color.a = 1;
         }
         spriteRenderer.color = color;
     }

@@ -7,7 +7,7 @@ public class GameOfLife : MonoBehaviour
     float cellSize = 0.25f;
 
     int numberOfColumns, numberOfRows;
-    int spawnChancePercentage = 10;
+    int spawnChancePercentage = 15;
 
     float width;
     float height;
@@ -28,7 +28,7 @@ public class GameOfLife : MonoBehaviour
         {
             for (int x = 0; x < numberOfColumns; x++)
             {
-                Vector2 newPos = new Vector2(x * cellSize - width, y * cellSize - height);
+                Vector2 newPos = new (x * cellSize - width, y * cellSize - height);
 
                 var newCell = Instantiate(cellPrefab, newPos, Quaternion.identity);
                 newCell.transform.localScale = Vector2.one * cellSize;
@@ -60,13 +60,14 @@ public class GameOfLife : MonoBehaviour
                     }
                     else
                     {
-                        cells[x, y ].aliveNextStep = false;
+                        cells[x, y].aliveNextStep = false;
                     }
                 }
                 else
                 {
                     cells[x, y].aliveNextStep = aliveNeighbours == 3;
                 }
+                cells[x, y].UpdateStatus();
             }
         }
 
