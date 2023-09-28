@@ -28,4 +28,13 @@ public class Cell : MonoBehaviour
         }
         spriteRenderer.color = color;
     }
+
+    public Cell Clone()
+    {
+        Cell cell = gameObject.GetComponent<Cell>().MemberwiseClone() as Cell;
+        cell.alive = alive;
+        cell.aliveNextStep = aliveNextStep;
+        cell.spriteRenderer = spriteRenderer;
+        return cell;
+    }
 }

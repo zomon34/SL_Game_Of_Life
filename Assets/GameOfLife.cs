@@ -1,4 +1,5 @@
 using UnityEngine;
+using static UnityEngine.UI.Image;
 
 public class GameOfLife : MonoBehaviour
 {
@@ -7,10 +8,12 @@ public class GameOfLife : MonoBehaviour
     float cellSize = 0.25f;
 
     int numberOfColumns, numberOfRows;
-    int spawnChancePercentage = 15;
+    int spawnChancePercentage = 10;
 
     float width;
     float height;
+
+    bool isStable;
 
     void Start()
     {
@@ -93,6 +96,11 @@ public class GameOfLife : MonoBehaviour
                 }
             }
         }
+        isStable = CheckIfStable();
+        if (isStable)
+        {
+            print("it's stable!");
+        }
     }
 
     int GetAliveNeighbours(int x, int y)
@@ -115,8 +123,25 @@ public class GameOfLife : MonoBehaviour
                 }
             }
         }
-
         return aliveNeighbours;
+    }
+    bool CheckIfStable()
+    {
+        int currentAliveCount = CountAliveCells(cells);
+        Cell[,] nextGeneration = SimulateNextGeneration(cells);
+
+        // Checks the next 3 generations. 3 generates false positives, but so does 30!!!
+        // The logic of it might be wrong, not the amount of future generations checked.
+        for (int i = 0; i < 3; i++)
+        {
+            if (CountAliveCells(nextGeneration) != currentAliveCount)
+            {
+                return false;
+            }
+            nextGeneration = SimulateNextGeneration(nextGeneration);
+        }
+
+        return true;
     }
 
     int CountAliveCells(Cell[,] cellsToCount)
@@ -133,14 +158,26 @@ public class GameOfLife : MonoBehaviour
                 }
             }
         }
-
         return aliveCells;
     }
 
-    // Does not work since it creates a shallow copy, altering the original cells when it's not supposed to.
     Cell[,] SimulateNextGeneration(Cell[,] currentCells)
     {
-        Cell[,] nextGeneration = currentCells;
+        int rows = currentCells.GetLength(0);
+        int columns = currentCells.GetLength(1);
+
+        Cell[,] nextGeneration = new Cell[rows, columns];
+
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < columns; j++)
+            {
+                if (currentCells[i, j] != null)
+                {
+                    nextGeneration[i, j] = (Cell)currentCells[i, j].Clone();
+                }
+            }
+        }
 
         for (int y = 0; y < numberOfRows; y++)
         {
