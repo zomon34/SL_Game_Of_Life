@@ -47,6 +47,15 @@ public class GameOfLife : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
+        {
+            Application.targetFrameRate = Mathf.Max(1, Application.targetFrameRate - 1);
+        }
+        else if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
+        {
+            Application.targetFrameRate++;
+        }
+
         if (Time.frameCount % 2 == 0)
         {
             for (int y = 0; y < numberOfRows; y++)
