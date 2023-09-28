@@ -47,36 +47,44 @@ public class GameOfLife : MonoBehaviour
 
     void Update()
     {
-        for (int y = 0; y < numberOfRows; y++)
+
+        
+
+        if (Time.frameCount % 2 == 0)
         {
-            for (int x = 0; x < numberOfColumns; x++)
+            for (int y = 0; y < numberOfRows; y++)
             {
-                int aliveNeighbours = GetAliveNeighbours(x, y);
-                if (cells[x, y].alive)
+                for (int x = 0; x < numberOfColumns; x++)
                 {
-                    if (aliveNeighbours == 2 || aliveNeighbours == 3)
+                    cells[x, y].alive = cells[x, y].aliveNextStep;
+                    cells[x, y].UpdateStatus();
+                }
+            }
+        }
+        else
+        {
+            for (int y = 0; y < numberOfRows; y++)
+            {
+                for (int x = 0; x < numberOfColumns; x++)
+                {
+                    int aliveNeighbours = GetAliveNeighbours(x, y);
+                    if (cells[x, y].alive)
                     {
-                        cells[x, y].aliveNextStep = true;
+                        if (aliveNeighbours == 2 || aliveNeighbours == 3)
+                        {
+                            cells[x, y].aliveNextStep = true;
+                        }
+                        else
+                        {
+                            cells[x, y].aliveNextStep = false;
+                        }
                     }
                     else
                     {
-                        cells[x, y].aliveNextStep = false;
+                        cells[x, y].aliveNextStep = aliveNeighbours == 3;
                     }
+                    cells[x, y].UpdateStatus();
                 }
-                else
-                {
-                    cells[x, y].aliveNextStep = aliveNeighbours == 3;
-                }
-                cells[x, y].UpdateStatus();
-            }
-        }
-
-        for (int y = 0; y < numberOfRows; y++)
-        {
-            for (int x = 0; x < numberOfColumns; x++)
-            {
-                cells[x, y].alive = cells[x, y].aliveNextStep;
-                cells[x, y].UpdateStatus();
             }
         }
     }
