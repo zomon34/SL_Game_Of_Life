@@ -5,11 +5,12 @@ public class GameOfLife : MonoBehaviour
     public GameObject cellPrefab;
     Cell[,] cells; //Maybe change to [][], because I want to try that.
     float cellSize = 0.25f;
+
     int numberOfColumns, numberOfRows;
-    int spawnChancePercentage = 33;
+    int spawnChancePercentage = 10;
+
     float width;
     float height;
-
 
     void Start()
     {
@@ -46,31 +47,52 @@ public class GameOfLife : MonoBehaviour
 
     void Update()
     {
-        //TODO: Calculate next generation
-
-        //TODO: update buffer
+        for (int y = 0; y < numberOfRows; y++)
+        {
+            for (int x = 0; x < numberOfColumns; x++)
+            {
+                int aliveNeighbours = GetAliveNeighbours(x, y);
+                if (cells[x, y].alive)
+                {
+                    if (aliveNeighbours == 2 || aliveNeighbours == 3)
+                    {
+                        cells[x, y].aliveNextStep = true;
+                    }
+                    else
+                    {
+                        cells[x, y ].aliveNextStep = false;
+                    }
+                }
+                else
+                {
+                    cells[x, y].aliveNextStep = aliveNeighbours == 3;
+                }
+            }
+        }
 
         for (int y = 0; y < numberOfRows; y++)
         {
             for (int x = 0; x < numberOfColumns; x++)
             {
-                if (x == 4 && y == 4) // Debug purposes
-                {
-                    cells[x, y].alive = CheckLifeConditions(x, y);
-                }
+                cells[x, y].alive = cells[x, y].aliveNextStep;
                 cells[x, y].UpdateStatus();
             }
         }
     }
 
-
-    bool CheckLifeConditions(int x, int y)
+    int GetAliveNeighbours(int x, int y)
     {
         int aliveNeighbours = 0;
 
-        for (int a = y - 1; a < y + 2; a++)
+        int startY = Mathf.Max(0, y - 1);
+        int maxY = Mathf.Min(numberOfRows, y + 2);
+
+        int startX = Mathf.Max(0, x - 1);
+        int maxX = Mathf.Min(numberOfColumns, x + 2);
+
+        for (int a = startY; a < maxY; a++)
         {
-            for (int b = x - 1; b < x + 2; b++)
+            for (int b = startX; b < maxX; b++)
             {
                 if (cells[b, a].alive && cells[b, a] != cells[x, y])
                 {
@@ -79,11 +101,6 @@ public class GameOfLife : MonoBehaviour
             }
         }
 
-        if (aliveNeighbours > 3 || aliveNeighbours < 2)
-        {
-            return false;
-        }
-
-        return true;
+        return aliveNeighbours;
     }
 }

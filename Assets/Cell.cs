@@ -9,12 +9,15 @@ public class Cell : MonoBehaviour
     public void UpdateStatus()
     {
         spriteRenderer ??= GetComponent<SpriteRenderer>();
-        spriteRenderer.enabled = alive;
-    }
-
-    public void Select() //Debug purposes that's used to see what cell is being tested with
-    {
-        spriteRenderer ??= GetComponent<SpriteRenderer>();
-        spriteRenderer.color = Color.red;
+        Color color = spriteRenderer.color;
+        if (!alive)
+        {
+            color.a = 0f;
+        }
+        else
+        {
+            color.a = 1f;
+        }
+        spriteRenderer.color = color;
     }
 }
