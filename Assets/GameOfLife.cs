@@ -1,5 +1,4 @@
 using UnityEngine;
-using static UnityEngine.UI.Image;
 
 public class GameOfLife : MonoBehaviour
 {
@@ -12,8 +11,6 @@ public class GameOfLife : MonoBehaviour
 
     float width;
     float height;
-
-    bool isStable;
 
     void Start()
     {
@@ -31,7 +28,7 @@ public class GameOfLife : MonoBehaviour
         {
             for (int x = 0; x < numberOfColumns; x++)
             {
-                Vector2 newPos = new (x * cellSize - width, y * cellSize - height);
+                Vector2 newPos = new(x * cellSize - width, y * cellSize - height);
 
                 var newCell = Instantiate(cellPrefab, newPos, Quaternion.identity);
                 newCell.transform.localScale = Vector2.one * cellSize;
@@ -96,8 +93,7 @@ public class GameOfLife : MonoBehaviour
                 }
             }
         }
-        isStable = CheckIfStable();
-        if (isStable)
+        if (CheckIfStable())
         {
             print("it's stable!");
         }
@@ -132,6 +128,7 @@ public class GameOfLife : MonoBehaviour
 
         // Checks the next 3 generations. 3 generates false positives, but so does 30!!!
         // The logic of it might be wrong, not the amount of future generations checked.
+        // Or maybe this task is impossible.
         for (int i = 0; i < 3; i++)
         {
             if (CountAliveCells(nextGeneration) != currentAliveCount)
