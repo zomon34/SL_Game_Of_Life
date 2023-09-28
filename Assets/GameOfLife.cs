@@ -51,7 +51,7 @@ public class GameOfLife : MonoBehaviour
         {
             Application.targetFrameRate = Mathf.Max(1, Application.targetFrameRate - 1);
         }
-        else if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
         {
             Application.targetFrameRate++;
         }
@@ -117,5 +117,60 @@ public class GameOfLife : MonoBehaviour
         }
 
         return aliveNeighbours;
+    }
+
+    int CountAliveCells(Cell[,] cellsToCount)
+    {
+        int aliveCells = 0;
+
+        for (int y = 0; y < numberOfRows; y++)
+        {
+            for (int x = 0; x < numberOfColumns; x++)
+            {
+                if (cellsToCount[x, y].alive)
+                {
+                    aliveCells++;
+                }
+            }
+        }
+
+        return aliveCells;
+    }
+
+    // Does not work since it creates a shallow copy, altering the original cells when it's not supposed to.
+    Cell[,] SimulateNextGeneration(Cell[,] currentCells)
+    {
+        Cell[,] nextGeneration = currentCells;
+
+        for (int y = 0; y < numberOfRows; y++)
+        {
+            for (int x = 0; x < numberOfColumns; x++)
+            {
+                int aliveNeighbours = GetAliveNeighbours(x, y);
+                if (nextGeneration[x, y].alive)
+                {
+                    if (aliveNeighbours == 2 || aliveNeighbours == 3)
+                    {
+                        nextGeneration[x, y].aliveNextStep = true;
+                    }
+                    else
+                    {
+                        nextGeneration[x, y].aliveNextStep = false;
+                    }
+                }
+                else
+                {
+                    nextGeneration[x, y].aliveNextStep = aliveNeighbours == 3;
+                }
+            }
+        }
+        for (int y = 0; y < numberOfRows; y++)
+        {
+            for (int x = 0; x < numberOfColumns; x++)
+            {
+                nextGeneration[x, y].alive = nextGeneration[x, y].aliveNextStep;
+            }
+        }
+        return nextGeneration;
     }
 }
