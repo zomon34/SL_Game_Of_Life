@@ -47,9 +47,6 @@ public class GameOfLife : MonoBehaviour
 
     void Update()
     {
-
-        
-
         if (Time.frameCount % 2 == 0)
         {
             for (int y = 0; y < numberOfRows; y++)
