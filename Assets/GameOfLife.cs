@@ -93,10 +93,6 @@ public class GameOfLife : MonoBehaviour
                 }
             }
         }
-        if (CheckIfStable())
-        {
-            print("it's stable!");
-        }
     }
 
     int GetAliveNeighbours(int x, int y)
@@ -126,8 +122,10 @@ public class GameOfLife : MonoBehaviour
         int currentAliveCount = CountAliveCells(cells);
         Cell[,] nextGeneration = SimulateNextGeneration(cells);
 
-        // Checks the next 3 generations. 3 generates false positives, but so does 30!!!
+        // Checks the next 3 generations. Checking 3 generates false positives, but so does 30!!!
         // The logic of it might be wrong, not the amount of future generations checked.
+        // One solution could be to compare the next-next generations cell grid with the current one,
+        // instead of comparing the number of alive cells
         // Or maybe this task is impossible.
         for (int i = 0; i < 3; i++)
         {
