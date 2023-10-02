@@ -28,8 +28,8 @@ public class Cell : MonoBehaviour
         }
         else if (alive && !aliveNextStep)
         {
-            color = Color.red;
-            color.a = 0.5f;
+            color.g = 0.85f;
+            color.b = 0.85f;
         }
         spriteRenderer.color = color;
     }
