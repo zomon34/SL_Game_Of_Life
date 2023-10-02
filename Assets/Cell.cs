@@ -26,6 +26,11 @@ public class Cell : MonoBehaviour
             color = Color.green;
             color.a = 0.1f;
         }
+        else if (alive && !aliveNextStep)
+        {
+            color = Color.red;
+            color.a = 0.5f;
+        }
         spriteRenderer.color = color;
     }
 
