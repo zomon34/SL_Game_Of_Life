@@ -72,6 +72,18 @@ public class GameOfLife : MonoBehaviour
                 Application.targetFrameRate = 60;
             }
         }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            for (int y = 0; y < numberOfRows; y++)
+            {
+                for (int x = 0; x < numberOfColumns; x++)
+                {
+                    cells[x, y].alive = false;
+                    cells[x, y].aliveNextStep = false;
+                    cells[x, y].UpdateStatus();
+                }
+            }
+        }
 
         if (!isPaused)
         {
