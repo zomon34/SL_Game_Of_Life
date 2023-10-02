@@ -45,7 +45,19 @@ public class Cell : MonoBehaviour
 
     private void OnMouseDown()
     {
-        alive = !alive;
-        aliveNextStep = !aliveNextStep;
+        if (alive)
+        {
+            alive = false;
+            aliveNextStep = false;
+            Color color = Color.white;
+            color.a = 0;
+            spriteRenderer.color = color;
+        }
+        else
+        {
+            alive = true;
+            aliveNextStep = true;
+            spriteRenderer.color = Color.white;
+        }
     }
 }

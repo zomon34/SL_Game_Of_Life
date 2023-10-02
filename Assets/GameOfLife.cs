@@ -12,6 +12,9 @@ public class GameOfLife : MonoBehaviour
     float width;
     float height;
 
+    bool isPaused = false;
+    int lastFrameRate;
+
     void Start()
     {
         width = Camera.main.orthographicSize * Camera.main.aspect;
@@ -55,41 +58,58 @@ public class GameOfLife : MonoBehaviour
         {
             Application.targetFrameRate++;
         }
-
-        if (Time.frameCount % 2 == 0)
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            for (int y = 0; y < numberOfRows; y++)
+            if (isPaused)
             {
-                for (int x = 0; x < numberOfColumns; x++)
-                {
-                    cells[x, y].alive = cells[x, y].aliveNextStep;
-                    cells[x, y].UpdateStatus();
-                }
+                isPaused = false;
+                Application.targetFrameRate = lastFrameRate;
+            }
+            else
+            {
+                isPaused = true;
+                lastFrameRate = Application.targetFrameRate;
+                Application.targetFrameRate = 60;
             }
         }
-        else
+
+        if (!isPaused)
         {
-            for (int y = 0; y < numberOfRows; y++)
+            if (Time.frameCount % 2 == 0)
             {
-                for (int x = 0; x < numberOfColumns; x++)
+                for (int y = 0; y < numberOfRows; y++)
                 {
-                    int aliveNeighbours = GetAliveNeighbours(x, y);
-                    if (cells[x, y].alive)
+                    for (int x = 0; x < numberOfColumns; x++)
                     {
-                        if (aliveNeighbours == 2 || aliveNeighbours == 3)
+                        cells[x, y].alive = cells[x, y].aliveNextStep;
+                        cells[x, y].UpdateStatus();
+                    }
+                }
+            }
+            else
+            {
+                for (int y = 0; y < numberOfRows; y++)
+                {
+                    for (int x = 0; x < numberOfColumns; x++)
+                    {
+                        int aliveNeighbours = GetAliveNeighbours(x, y);
+                        if (cells[x, y].alive)
                         {
-                            cells[x, y].aliveNextStep = true;
+                            if (aliveNeighbours == 2 || aliveNeighbours == 3)
+                            {
+                                cells[x, y].aliveNextStep = true;
+                            }
+                            else
+                            {
+                                cells[x, y].aliveNextStep = false;
+                            }
                         }
                         else
                         {
-                            cells[x, y].aliveNextStep = false;
+                            cells[x, y].aliveNextStep = aliveNeighbours == 3;
                         }
+                        cells[x, y].UpdateStatus();
                     }
-                    else
-                    {
-                        cells[x, y].aliveNextStep = aliveNeighbours == 3;
-                    }
-                    cells[x, y].UpdateStatus();
                 }
             }
         }
