@@ -42,4 +42,10 @@ public class Cell : MonoBehaviour
         cell.spriteRenderer = spriteRenderer;
         return cell;
     }
+
+    private void OnMouseDown()
+    {
+        alive = !alive;
+        aliveNextStep = !aliveNextStep;
+    }
 }
