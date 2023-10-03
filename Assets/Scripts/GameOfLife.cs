@@ -148,43 +148,28 @@ public class GameOfLife : MonoBehaviour
         }
         return aliveNeighbours;
     }
+
+    // CheckIfStable only returns true if the remaining pieces are stationary.
+    // If there are any oscillators then it returns false.
+    
+    // TODO: Find a way to make it work with oscillators.
+    // Possibly with a while loop that simulates generations until it finds a match with the current one.
+    // That loop would have to have a limit. How big of a limit? Should it be run every frame?
     bool CheckIfStable()
     {
-        int currentAliveCount = CountAliveCells(cells);
         Cell[,] nextGeneration = SimulateNextGeneration(cells);
-
-        // Checks the next 3 generations. Checking 3 generates false positives, but so does 30!!!
-        // The logic of it might be wrong, not the amount of future generations checked.
-        // One solution could be to compare the next-next generations cell grid with the current one,
-        // instead of comparing the number of alive cells
-        // Or maybe this task is impossible.
-        for (int i = 0; i < 3; i++)
-        {
-            if (CountAliveCells(nextGeneration) != currentAliveCount)
-            {
-                return false;
-            }
-            nextGeneration = SimulateNextGeneration(nextGeneration);
-        }
-
-        return true;
-    }
-
-    int CountAliveCells(Cell[,] cellsToCount)
-    {
-        int aliveCells = 0;
 
         for (int y = 0; y < numberOfRows; y++)
         {
             for (int x = 0; x < numberOfColumns; x++)
             {
-                if (cellsToCount[x, y].alive)
+                if (cells[x, y].alive != nextGeneration[x, y].alive)
                 {
-                    aliveCells++;
+                    return false;
                 }
             }
         }
-        return aliveCells;
+        return true;
     }
 
     Cell[,] SimulateNextGeneration(Cell[,] currentCells)

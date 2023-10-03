@@ -15,7 +15,7 @@ public class CameraZoom : MonoBehaviour
             transform.position = Vector3.Lerp(transform.position, newPosition, 0.1F);
         }
 
-        if (Input.GetAxis("Mouse ScrollWheel") < 0 && zoom < 101)
+        if (Input.GetAxis("Mouse ScrollWheel") < 0 && zoom < 8)
         {
             zoom += 1;
             Camera.main.orthographicSize = zoom;
