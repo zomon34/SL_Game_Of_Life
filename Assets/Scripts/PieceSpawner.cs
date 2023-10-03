@@ -20,7 +20,7 @@ public class PieceSpawner : MonoBehaviour
         numberOfColumns = gameOfLife.numberOfColumns;
     }
 
-    // TODO: A code smell! Same thing is done here in SpawnAround and in SpawnGlider.
+    // TODO: A code smell! Very similar things are done in SpawnAround and in SpawnGlider.
     public void SpawnAround(Cell cell)
     {
         for (int y = 0; y < numberOfRows; y++)
