@@ -6,15 +6,21 @@ public class PieceSpawner : MonoBehaviour
     Cell[,] cells;
     int numberOfRows, numberOfColumns;
 
+    // Possible code smell: A lot of things are copied from GameOfLife.
+    // But inheriting isn't the best solution since we don't need everything from GameOfLife.
+    // One solution is to split up GameOfLife into two files, one for the Grid and one for the functions.
+    // That has the added benifit of making the GameOfLife file shorter.
+    // Another solution is to create a Grid class inside GameOfLife, but that would make the file even longer.
+
     void Start()
     {
         gameOfLife = FindObjectOfType<GameOfLife>();
         cells = gameOfLife.cells;
         numberOfRows = gameOfLife.numberOfRows;
         numberOfColumns = gameOfLife.numberOfColumns;
-
     }
 
+    // TODO: A code smell! Same thing is done here in SpawnAround and in SpawnGlider.
     public void SpawnAround(Cell cell)
     {
         for (int y = 0; y < numberOfRows; y++)

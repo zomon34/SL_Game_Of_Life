@@ -55,22 +55,19 @@ public class Cell : MonoBehaviour
         }
         else
         {
-            Toggle();
+            if (alive)
+            {
+                Die();
+            }
+            else
+            {
+                Live();
+            }
         }
     }
 
-    public void Toggle()
-    {
-        if (alive)
-        {
-            Die();
-        }
-        else
-        {
-            Live();
-        }
-    }
-
+    // Possible code smell: Live and Die aren't very descriptive names.
+    // Why they're needed and only called sometimes isn't very clear.
     public void Live()
     {
         alive = true;

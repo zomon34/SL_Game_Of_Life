@@ -15,6 +15,8 @@ public class GameOfLife : MonoBehaviour
     bool isPaused = false;
     int lastFrameRate;
 
+    // This is a very large file, need to find a solution to that.
+
     void Awake()
     {
         width = Camera.main.orthographicSize * Camera.main.aspect;
