@@ -21,7 +21,7 @@ public class CameraZoom : MonoBehaviour
             Camera.main.orthographicSize = zoom;
         }
 
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             zoom = 5;
             Camera.main.orthographicSize = zoom;
