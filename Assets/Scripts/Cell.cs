@@ -45,19 +45,41 @@ public class Cell : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (alive)
+        if (Input.GetKey(KeyCode.W))
         {
-            alive = false;
-            aliveNextStep = false;
-            Color color = Color.white;
-            color.a = 0;
-            spriteRenderer.color = color;
+            FindObjectOfType<PieceSpawner>().SpawnAround(this);
         }
         else
         {
-            alive = true;
-            aliveNextStep = true;
-            spriteRenderer.color = Color.white;
+            Toggle();
         }
+    }
+
+    public void Toggle()
+    {
+        if (alive)
+        {
+            Die();
+        }
+        else
+        {
+            Live();
+        }
+    }
+
+    public void Live()
+    {
+        alive = true;
+        aliveNextStep = true;
+        spriteRenderer.color = Color.white;
+    }
+
+    public void Die()
+    {
+        alive = false;
+        aliveNextStep = false;
+        Color color = Color.white;
+        color.a = 0;
+        spriteRenderer.color = color;
     }
 }

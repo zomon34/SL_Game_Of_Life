@@ -3,10 +3,10 @@ using UnityEngine;
 public class GameOfLife : MonoBehaviour
 {
     public GameObject cellPrefab;
-    Cell[,] cells; //Maybe change to [][], because I want to try that.
+    public Cell[,] cells; //Maybe change to [][], because I want to try that.
     float cellSize = 0.25f;
 
-    int numberOfColumns, numberOfRows;
+    public int numberOfColumns, numberOfRows;
     int spawnChancePercentage = 10;
 
     float width;
@@ -15,7 +15,7 @@ public class GameOfLife : MonoBehaviour
     bool isPaused = false;
     int lastFrameRate;
 
-    void Start()
+    void Awake()
     {
         width = Camera.main.orthographicSize * Camera.main.aspect;
         height = Camera.main.orthographicSize;
@@ -80,7 +80,6 @@ public class GameOfLife : MonoBehaviour
                 {
                     cells[x, y].alive = false;
                     cells[x, y].aliveNextStep = false;
-                    cells[x, y].UpdateStatus();
                 }
             }
         }
