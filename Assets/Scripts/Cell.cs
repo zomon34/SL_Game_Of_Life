@@ -49,6 +49,10 @@ public class Cell : MonoBehaviour
         {
             FindObjectOfType<PieceSpawner>().SpawnAround(this);
         }
+        else if (Input.GetKey(KeyCode.S))
+        {
+            FindObjectOfType<PieceSpawner>().SpawnGlider(this);
+        }
         else
         {
             Toggle();
