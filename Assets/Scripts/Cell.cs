@@ -53,6 +53,10 @@ public class Cell : MonoBehaviour
         {
             FindObjectOfType<PieceSpawner>().SpawnGlider(this);
         }
+        else if (Input.GetKey(KeyCode.F))
+        {
+            FindAnyObjectByType<PieceSpawner>().SpawnToad(this);
+        }
         else
         {
             if (alive)

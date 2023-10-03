@@ -20,12 +20,10 @@ public class PieceSpawner : MonoBehaviour
         numberOfColumns = gameOfLife.numberOfColumns;
     }
 
-    // TODO: A code smell! Very similar things are done in SpawnAround and in SpawnGlider.
+    // TODO: Possible code smell: Very similar things are done in SpawnAround and in SpawnGlider.
     public void SpawnAround(Cell cell)
     {
-        var cellCords = FindCellCords(cell);
-        int x = cellCords.Item1;
-        int y = cellCords.Item2;
+        (int x, int y) = FindCellCords(cell);
 
         int startY = Mathf.Max(0, y - 1);
         int maxY = Mathf.Min(numberOfRows, y + 2);
@@ -43,7 +41,6 @@ public class PieceSpawner : MonoBehaviour
                 }
             }
         }
-
     }
 
     (int, int) FindCellCords(Cell cell)
@@ -63,10 +60,8 @@ public class PieceSpawner : MonoBehaviour
 
     public void SpawnGlider(Cell cell)
     {
-        var cellCords = FindCellCords(cell);
-        int x = cellCords.Item1;
-        int y = cellCords.Item2;
-
+        (int x, int y) = FindCellCords(cell);
+        
         int startY = Mathf.Max(0, y - 1);
         int maxY = Mathf.Min(numberOfRows, y + 2);
 
@@ -83,9 +78,9 @@ public class PieceSpawner : MonoBehaviour
                 }
             }
         }
-
     }
 
+    // TODO: Simplify the return.
     bool CheckGliderConditions(int x, int y)
     {
         if (x == -1 && y == -1)
@@ -101,5 +96,19 @@ public class PieceSpawner : MonoBehaviour
             return false;
         }
         return true;
+    }
+
+    public void SpawnToad(Cell cell)
+    {
+        (int x, int y) = FindCellCords(cell);
+
+        for (int i = 0; i < 3; i++)
+        {
+            if (x + i + 1 < numberOfColumns && y + 1 < numberOfRows)
+            {
+                cells[x + i, y].Live();
+                cells[x + i + 1, y + 1].Live();
+            }
+        }
     }
 }
