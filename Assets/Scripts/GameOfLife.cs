@@ -17,6 +17,13 @@ public class GameOfLife : MonoBehaviour
 
     // This is a very large file, need to find a solution to that.
 
+    // TODO for this week: add a menu where you can select what piece to place out.
+    // PieceSpawner can hold the selected piece, and each Cell would call the same function.
+
+    // TODO for last week: Go through each comment in all files.
+    // Focus will be to make the code cleaner and remove code smells.
+    // Also make repo public and update Readme
+
     void Awake()
     {
         width = Camera.main.orthographicSize * Camera.main.aspect;
