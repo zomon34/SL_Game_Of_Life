@@ -23,34 +23,30 @@ public class PieceSpawner : MonoBehaviour
     // TODO: A code smell! Very similar things are done in SpawnAround and in SpawnGlider.
     public void SpawnAround(Cell cell)
     {
-        for (int y = 0; y < numberOfRows; y++)
+        var cellCords = FindCellCords(cell);
+        int x = cellCords.Item1;
+        int y = cellCords.Item2;
+
+        int startY = Mathf.Max(0, y - 1);
+        int maxY = Mathf.Min(numberOfRows, y + 2);
+
+        int startX = Mathf.Max(0, x - 1);
+        int maxX = Mathf.Min(numberOfColumns, x + 2);
+
+        for (int a = startY; a < maxY; a++)
         {
-            for (int x = 0; x < numberOfColumns; x++)
+            for (int b = startX; b < maxX; b++)
             {
-                if (cells[x, y] == cell)
+                if (cells[b, a] != cells[x, y])
                 {
-                    int startY = Mathf.Max(0, y - 1);
-                    int maxY = Mathf.Min(numberOfRows, y + 2);
-
-                    int startX = Mathf.Max(0, x - 1);
-                    int maxX = Mathf.Min(numberOfColumns, x + 2);
-
-                    for (int a = startY; a < maxY; a++)
-                    {
-                        for (int b = startX; b < maxX; b++)
-                        {
-                            if (cells[b, a] != cells[x, y])
-                            {
-                                cells[b, a].Live();
-                            }
-                        }
-                    }
+                    cells[b, a].Live();
                 }
             }
         }
+
     }
 
-    public void SpawnGlider(Cell cell)
+    (int, int) FindCellCords(Cell cell)
     {
         for (int y = 0; y < numberOfRows; y++)
         {
@@ -58,25 +54,36 @@ public class PieceSpawner : MonoBehaviour
             {
                 if (cells[x, y] == cell)
                 {
-                    int startY = Mathf.Max(0, y - 1);
-                    int maxY = Mathf.Min(numberOfRows, y + 2);
-
-                    int startX = Mathf.Max(0, x - 1);
-                    int maxX = Mathf.Min(numberOfColumns, x + 2);
-
-                    for (int a = startY; a < maxY; a++)
-                    {
-                        for (int b = startX; b < maxX; b++)
-                        {
-                            if (cells[b, a] != cells[x, y] && CheckGliderConditions(b - x, a - y))
-                            {
-                                cells[b, a].Live();
-                            }
-                        }
-                    }
+                    return (x, y);
                 }
             }
         }
+        return (0, 0);
+    }
+
+    public void SpawnGlider(Cell cell)
+    {
+        var cellCords = FindCellCords(cell);
+        int x = cellCords.Item1;
+        int y = cellCords.Item2;
+
+        int startY = Mathf.Max(0, y - 1);
+        int maxY = Mathf.Min(numberOfRows, y + 2);
+
+        int startX = Mathf.Max(0, x - 1);
+        int maxX = Mathf.Min(numberOfColumns, x + 2);
+
+        for (int a = startY; a < maxY; a++)
+        {
+            for (int b = startX; b < maxX; b++)
+            {
+                if (cells[b, a] != cells[x, y] && CheckGliderConditions(b - x, a - y))
+                {
+                    cells[b, a].Live();
+                }
+            }
+        }
+
     }
 
     bool CheckGliderConditions(int x, int y)
