@@ -155,9 +155,10 @@ public class GameOfLife : MonoBehaviour
     // TODO: Find a way to make it work with oscillators.
     // Possibly with a while loop that simulates generations until it finds a match with the current one.
     // That loop would have to have a limit. How big of a limit? Should it be run every frame?
-    bool CheckIfStable()
+    // While loop idea has been attempted. Bad idea, Unity crashed. This might not be possible?
+    bool CheckIfStable(Cell[,] inputCells)
     {
-        Cell[,] nextGeneration = SimulateNextGeneration(cells);
+        Cell[,] nextGeneration = SimulateNextGeneration(inputCells);
 
         for (int y = 0; y < numberOfRows; y++)
         {
