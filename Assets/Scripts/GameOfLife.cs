@@ -60,6 +60,7 @@ public class GameOfLife : MonoBehaviour
     void Update()
     {
         // TODO: Make it so targetFrameRate is changed when the game is paused too.
+        // Possibly even replace targetFrameRate with a Time.TimeScale implementation.
         if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
         {
             Application.targetFrameRate = Mathf.Max(1, Application.targetFrameRate - 1);
