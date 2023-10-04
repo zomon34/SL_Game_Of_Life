@@ -118,15 +118,7 @@ public class PieceSpawner : MonoBehaviour
     // TODO: Simplify the return.
     bool CheckGliderConditions(int x, int y)
     {
-        if (x == -1 && y == -1)
-        {
-            return false;
-        }
-        else if (x == -1 && y == 1)
-        {
-            return false;
-        }
-        else if (x == 0 && y == 1)
+        if (x == -1 && y != 0 || x == 0 && y == 1)
         {
             return false;
         }
