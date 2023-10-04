@@ -24,7 +24,14 @@ public class PieceSpawner : MonoBehaviour
 
     public void ChangeSelectedShape(int shapeIndex)
     {
-        selectedShapeIndex = shapeIndex;
+        if (selectedShapeIndex == shapeIndex)
+        {
+            selectedShapeIndex = 5;
+        }
+        else
+        {
+            selectedShapeIndex = shapeIndex;
+        }
     }
 
     public void SpawnPieceAt(Cell cell)
