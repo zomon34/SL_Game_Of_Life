@@ -1,4 +1,6 @@
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
 public class GameOfLife : MonoBehaviour
 {
@@ -14,6 +16,8 @@ public class GameOfLife : MonoBehaviour
 
     bool isPaused = false;
     int lastFrameRate;
+
+    List<int> savedAliveCounts = new List<int>();
 
     // This is a very large file, need to find a solution to that.
 
@@ -134,6 +138,12 @@ public class GameOfLife : MonoBehaviour
                 }
             }
         }
+        savedAliveCounts.Add(CountAliveCells(cells));
+
+        if (CheckIfStable())
+        {
+            // Finish
+        }
     }
 
     int GetAliveNeighbours(int x, int y)
@@ -158,78 +168,38 @@ public class GameOfLife : MonoBehaviour
         }
         return aliveNeighbours;
     }
-
-    // CheckIfStable only returns true if the remaining pieces are stationary.
-    // If there are any oscillators then it returns false.
-    
-    // TODO: Find a way to make it work with oscillators.
-    // Possibly with a while loop that simulates generations until it finds a match with the current one.
-    // That loop would have to have a limit. How big of a limit? Should it be run every frame?
-    // While loop idea has been attempted. Bad idea, Unity crashed. This might not be possible?
-    bool CheckIfStable(Cell[,] inputCells)
+    int CountAliveCells(Cell[,] cellsToCount)
     {
-        Cell[,] nextGeneration = SimulateNextGeneration(inputCells);
+        int aliveCells = 0;
 
         for (int y = 0; y < numberOfRows; y++)
         {
             for (int x = 0; x < numberOfColumns; x++)
             {
-                if (cells[x, y].alive != nextGeneration[x, y].alive)
+                if (cellsToCount[x, y].alive)
+                {
+                    aliveCells++;
+                }
+            }
+        }
+        return aliveCells;
+    }
+    bool CheckIfStable()
+    {
+        int generationsToCheck = 5;
+        if (savedAliveCounts.Count > generationsToCheck)
+        {
+            int currentAliveCount = CountAliveCells(cells);
+
+            for (int i = savedAliveCounts.Count - generationsToCheck - 1; i < savedAliveCounts.Count - 1; i++)
+            {
+                if (savedAliveCounts[i] != currentAliveCount)
                 {
                     return false;
                 }
             }
+            return true;
         }
-        return true;
-    }
-
-    Cell[,] SimulateNextGeneration(Cell[,] currentCells)
-    {
-        int rows = currentCells.GetLength(0);
-        int columns = currentCells.GetLength(1);
-
-        Cell[,] nextGeneration = new Cell[rows, columns];
-
-        for (int i = 0; i < rows; i++)
-        {
-            for (int j = 0; j < columns; j++)
-            {
-                if (currentCells[i, j] != null)
-                {
-                    nextGeneration[i, j] = (Cell)currentCells[i, j].Clone();
-                }
-            }
-        }
-
-        for (int y = 0; y < numberOfRows; y++)
-        {
-            for (int x = 0; x < numberOfColumns; x++)
-            {
-                int aliveNeighbours = GetAliveNeighbours(x, y);
-                if (nextGeneration[x, y].alive)
-                {
-                    if (aliveNeighbours == 2 || aliveNeighbours == 3)
-                    {
-                        nextGeneration[x, y].aliveNextStep = true;
-                    }
-                    else
-                    {
-                        nextGeneration[x, y].aliveNextStep = false;
-                    }
-                }
-                else
-                {
-                    nextGeneration[x, y].aliveNextStep = aliveNeighbours == 3;
-                }
-            }
-        }
-        for (int y = 0; y < numberOfRows; y++)
-        {
-            for (int x = 0; x < numberOfColumns; x++)
-            {
-                nextGeneration[x, y].alive = nextGeneration[x, y].aliveNextStep;
-            }
-        }
-        return nextGeneration;
+        return false;
     }
 }
