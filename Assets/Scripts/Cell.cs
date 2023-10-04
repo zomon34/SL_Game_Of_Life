@@ -46,41 +46,29 @@ public class Cell : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (Input.GetKey(KeyCode.W))
+        FindObjectOfType<PieceSpawner>().SpawnPieceAt(this);
+    }
+
+    public void ToggleCellStatus()
+    {
+        if (alive)
         {
-            FindObjectOfType<PieceSpawner>().SpawnAround(this);
-        }
-        else if (Input.GetKey(KeyCode.S))
-        {
-            FindObjectOfType<PieceSpawner>().SpawnGlider(this);
-        }
-        else if (Input.GetKey(KeyCode.F))
-        {
-            FindAnyObjectByType<PieceSpawner>().SpawnToad(this);
+            MakeCellDie();
         }
         else
         {
-            if (alive)
-            {
-                Die();
-            }
-            else
-            {
-                Live();
-            }
+            MakeCellLive();
         }
     }
 
-    // Possible code smell: Live and Die aren't very descriptive names.
-    // Why they're needed and only called sometimes isn't very clear.
-    public void Live()
+    public void MakeCellLive()
     {
         alive = true;
         aliveNextStep = true;
         spriteRenderer.color = Color.white;
     }
 
-    public void Die()
+    public void MakeCellDie()
     {
         alive = false;
         aliveNextStep = false;

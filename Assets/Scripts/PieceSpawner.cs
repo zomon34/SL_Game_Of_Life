@@ -6,6 +6,8 @@ public class PieceSpawner : MonoBehaviour
     Cell[,] cells;
     int numberOfRows, numberOfColumns;
 
+    int selectedShapeIndex;
+
     // Possible code smell: A lot of things are copied from GameOfLife.
     // But inheriting isn't the best solution since we don't need everything from GameOfLife.
     // One solution is to split up GameOfLife into two files, one for the Grid and one for the functions.
@@ -18,6 +20,32 @@ public class PieceSpawner : MonoBehaviour
         cells = gameOfLife.cells;
         numberOfRows = gameOfLife.numberOfRows;
         numberOfColumns = gameOfLife.numberOfColumns;
+    }
+
+    public void ChangeSelectedShape(int shapeIndex)
+    {
+        selectedShapeIndex = shapeIndex;
+    }
+
+    public void SpawnPieceAt(Cell cell)
+    {
+        switch (selectedShapeIndex)
+        {
+            case 0:
+                cell.ToggleCellStatus(); 
+                break;
+            case 1:
+                SpawnAround(cell); 
+                break;
+            case 2:
+                SpawnGlider(cell);
+                break;
+            case 3:
+                SpawnToad(cell);
+                break;
+            default:
+                break;
+        }
     }
 
     // Possible code smell: Very similar things are done in SpawnAround and in SpawnGlider.
@@ -37,7 +65,7 @@ public class PieceSpawner : MonoBehaviour
             {
                 if (cells[b, a] != cells[x, y])
                 {
-                    cells[b, a].Live();
+                    cells[b, a].MakeCellLive();
                 }
             }
         }
@@ -74,7 +102,7 @@ public class PieceSpawner : MonoBehaviour
             {
                 if (cells[b, a] != cells[x, y] && CheckGliderConditions(b - x, a - y))
                 {
-                    cells[b, a].Live();
+                    cells[b, a].MakeCellLive();
                 }
             }
         }
@@ -106,8 +134,8 @@ public class PieceSpawner : MonoBehaviour
         {
             if (x + i + 1 < numberOfColumns && y + 1 < numberOfRows)
             {
-                cells[x + i, y].Live();
-                cells[x + i + 1, y + 1].Live();
+                cells[x + i, y].MakeCellLive();
+                cells[x + i + 1, y + 1].MakeCellLive();
             }
         }
     }
