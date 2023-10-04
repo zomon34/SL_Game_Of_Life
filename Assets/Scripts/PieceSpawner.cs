@@ -6,7 +6,7 @@ public class PieceSpawner : MonoBehaviour
     Cell[,] cells;
     int numberOfRows, numberOfColumns;
 
-    int selectedShapeIndex = -1;
+    int selectedPieceIndex = -1;
 
     // Possible code smell: A lot of things are copied from GameOfLife.
     // But inheriting isn't the best solution since we don't need everything from GameOfLife.
@@ -22,21 +22,21 @@ public class PieceSpawner : MonoBehaviour
         numberOfColumns = gameOfLife.numberOfColumns;
     }
 
-    public void ChangeSelectedShape(int shapeIndex)
+    public void ChangeSelectedPiece(int shapeIndex)
     {
-        if (selectedShapeIndex == shapeIndex)
+        if (selectedPieceIndex == shapeIndex)
         {
-            selectedShapeIndex = -1;
+            selectedPieceIndex = -1;
         }
         else
         {
-            selectedShapeIndex = shapeIndex;
+            selectedPieceIndex = shapeIndex;
         }
     }
 
     public void SpawnPieceAt(Cell cell)
     {
-        switch (selectedShapeIndex)
+        switch (selectedPieceIndex)
         {
             case 0:
                 cell.ToggleCellStatus(); 

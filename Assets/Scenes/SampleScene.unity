@@ -208,7 +208,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2090776580}
         m_TargetAssemblyTypeName: PieceSpawner, Assembly-CSharp
-        m_MethodName: ChangeSelectedShape
+        m_MethodName: ChangeSelectedPiece
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -904,7 +904,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2090776580}
         m_TargetAssemblyTypeName: PieceSpawner, Assembly-CSharp
-        m_MethodName: ChangeSelectedShape
+        m_MethodName: ChangeSelectedPiece
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1305,7 +1305,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2090776580}
         m_TargetAssemblyTypeName: PieceSpawner, Assembly-CSharp
-        m_MethodName: ChangeSelectedShape
+        m_MethodName: ChangeSelectedPiece
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1540,7 +1540,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2090776580}
         m_TargetAssemblyTypeName: PieceSpawner, Assembly-CSharp
-        m_MethodName: ChangeSelectedShape
+        m_MethodName: ChangeSelectedPiece
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
