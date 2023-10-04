@@ -24,8 +24,7 @@ public class Cell : MonoBehaviour
         else if (!alive && aliveNextStep)
         {
             color = Color.green;
-            color.g = 0.8f;
-            color.a = 0.1f;
+            color.g = 0.5f;
         }
         else if (alive && !aliveNextStep)
         {
