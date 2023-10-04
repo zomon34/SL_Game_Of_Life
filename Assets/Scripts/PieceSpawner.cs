@@ -38,6 +38,8 @@ public class PieceSpawner : MonoBehaviour
     {
         switch (selectedPieceIndex)
         {
+            case -1:
+                break;
             case 0:
                 cell.ToggleCellStatus(); 
                 break;
@@ -49,8 +51,6 @@ public class PieceSpawner : MonoBehaviour
                 break;
             case 3:
                 SpawnToad(cell);
-                break;
-            default:
                 break;
         }
     }
@@ -78,7 +78,7 @@ public class PieceSpawner : MonoBehaviour
         }
     }
 
-    (int, int) FindCellCords(Cell cell)
+    (int x, int y) FindCellCords(Cell cell)
     {
         for (int y = 0; y < numberOfRows; y++)
         {
@@ -115,7 +115,6 @@ public class PieceSpawner : MonoBehaviour
         }
     }
 
-    // TODO: Simplify the return.
     bool CheckGliderConditions(int x, int y)
     {
         if (x == -1 && y != 0 || x == 0 && y == 1)
