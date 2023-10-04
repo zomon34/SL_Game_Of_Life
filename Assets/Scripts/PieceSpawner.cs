@@ -6,7 +6,7 @@ public class PieceSpawner : MonoBehaviour
     Cell[,] cells;
     int numberOfRows, numberOfColumns;
 
-    int selectedShapeIndex;
+    int selectedShapeIndex = -1;
 
     // Possible code smell: A lot of things are copied from GameOfLife.
     // But inheriting isn't the best solution since we don't need everything from GameOfLife.
@@ -26,7 +26,7 @@ public class PieceSpawner : MonoBehaviour
     {
         if (selectedShapeIndex == shapeIndex)
         {
-            selectedShapeIndex = 5;
+            selectedShapeIndex = -1;
         }
         else
         {
