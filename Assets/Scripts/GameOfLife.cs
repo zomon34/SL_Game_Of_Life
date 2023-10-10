@@ -14,8 +14,10 @@ public class GameOfLife : MonoBehaviour
     float width;
     float height;
 
-    bool isPaused = false;
-    int lastFrameRate;
+    internal bool isPaused = false;
+    internal float targetSpeed = 0.1f;
+
+    bool updateCellsStep = false; // Used to do different thing every other frame
 
     List<int> savedAliveCounts = new List<int>();
 
@@ -29,8 +31,6 @@ public class GameOfLife : MonoBehaviour
     {
         width = Camera.main.orthographicSize * Camera.main.aspect;
         height = Camera.main.orthographicSize;
-        QualitySettings.vSyncCount = 0;
-        Application.targetFrameRate = 4;
 
         numberOfColumns = (int)Mathf.Floor(width * 2 / cellSize);
         numberOfRows = (int)Mathf.Floor(height * 2 / cellSize);
@@ -58,47 +58,15 @@ public class GameOfLife : MonoBehaviour
         }
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        // TODO: Make it so targetFrameRate is changed when the game is paused too.
-        // Possibly even replace targetFrameRate with a Time.TimeScale implementation.
-        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
-        {
-            Application.targetFrameRate = Mathf.Max(1, Application.targetFrameRate - 1);
-        }
-        if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
-        {
-            Application.targetFrameRate++;
-        }
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            if (isPaused)
-            {
-                Application.targetFrameRate = lastFrameRate;
-            }
-            else
-            {
-                lastFrameRate = Application.targetFrameRate;
-                Application.targetFrameRate = 60;
-            }
-            isPaused = !isPaused;
-        }
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            for (int y = 0; y < numberOfRows; y++)
-            {
-                for (int x = 0; x < numberOfColumns; x++)
-                {
-                    cells[x, y].alive = false;
-                    cells[x, y].aliveNextStep = false;
-                }
-            }
-        }
+        Time.timeScale = targetSpeed;
 
         if (!isPaused)
         {
-            if (Time.frameCount % 2 == 0)
+            if (updateCellsStep)
             {
+                updateCellsStep = false;
                 for (int y = 0; y < numberOfRows; y++)
                 {
                     for (int x = 0; x < numberOfColumns; x++)
@@ -110,6 +78,7 @@ public class GameOfLife : MonoBehaviour
             }
             else
             {
+                updateCellsStep = true;
                 for (int y = 0; y < numberOfRows; y++)
                 {
                     for (int x = 0; x < numberOfColumns; x++)
@@ -134,12 +103,12 @@ public class GameOfLife : MonoBehaviour
                     }
                 }
             }
-        }
-        savedAliveCounts.Add(CountAliveCells(cells));
+            savedAliveCounts.Add(CountAliveCells(cells));
 
-        if (CheckIfStable())
-        {
-            // Finish
+            if (CheckIfStable())
+            {
+                // Finish
+            }
         }
     }
 
@@ -186,9 +155,10 @@ public class GameOfLife : MonoBehaviour
         int generationsToCheck = 5;
         if (savedAliveCounts.Count > generationsToCheck)
         {
-            int currentAliveCount = CountAliveCells(cells);
+            int indexOfLastCount = savedAliveCounts.Count - 1;
+            int currentAliveCount = savedAliveCounts[indexOfLastCount];
 
-            for (int i = savedAliveCounts.Count - generationsToCheck - 1; i < savedAliveCounts.Count - 1; i++)
+            for (int i = savedAliveCounts.Count - generationsToCheck - 1; i < indexOfLastCount; i++)
             {
                 if (savedAliveCounts[i] != currentAliveCount)
                 {
@@ -198,5 +168,16 @@ public class GameOfLife : MonoBehaviour
             return true;
         }
         return false;
+    }
+    public void ClearAllCells()
+    {
+        for (int y = 0; y < numberOfRows; y++)
+        {
+            for (int x = 0; x < numberOfColumns; x++)
+            {
+                cells[x, y].alive = false;
+                cells[x, y].aliveNextStep = false;
+            }
+        }
     }
 }
