@@ -33,7 +33,6 @@ public class PieceSpawner : MonoBehaviour
             selectedPieceIndex = shapeIndex;
         }
     }
-
     public void SpawnPieceAt(Cell cell)
     {
         switch (selectedPieceIndex)
@@ -77,7 +76,6 @@ public class PieceSpawner : MonoBehaviour
             }
         }
     }
-
     (int x, int y) FindCellCords(Cell cell)
     {
         for (int y = 0; y < numberOfRows; y++)
@@ -114,7 +112,6 @@ public class PieceSpawner : MonoBehaviour
             }
         }
     }
-
     bool CheckGliderConditions(int x, int y)
     {
         if (x == -1 && y != 0 || x == 0 && y == 1)
@@ -123,7 +120,6 @@ public class PieceSpawner : MonoBehaviour
         }
         return true;
     }
-
     public void SpawnToad(Cell cell)
     {
         (int x, int y) = FindCellCords(cell);

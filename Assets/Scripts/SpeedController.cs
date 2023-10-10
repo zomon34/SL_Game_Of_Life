@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 // Should be called something like InputManager, but I'm too afraid to change file names
@@ -16,7 +14,7 @@ public class SpeedController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
         {
-            gameOfLife.targetSpeed = Mathf.Max(0.025f, Time.timeScale - 0.025f);
+            gameOfLife.targetSpeed = Mathf.Max(0.025f, gameOfLife.targetSpeed - 0.025f);
         }
         if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
         {

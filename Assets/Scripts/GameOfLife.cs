@@ -1,11 +1,10 @@
 using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 
 public class GameOfLife : MonoBehaviour
 {
     public GameObject cellPrefab;
-    public Cell[,] cells; //Maybe change to [][], because I want to try that.
+    public Cell[,] cells;
     float cellSize = 0.25f;
 
     public int numberOfColumns, numberOfRows;
@@ -17,11 +16,9 @@ public class GameOfLife : MonoBehaviour
     internal bool isPaused = false;
     internal float targetSpeed = 0.1f;
 
-    bool updateCellsStep = false; // Used to do different thing every other frame
+    bool updateCellsStep = false;
 
     List<int> savedAliveCounts = new List<int>();
-
-    // This is a very large file, need to find a solution to that.
 
     // TODO for final week: Go through each comment in all files.
     // Focus will be to make the code cleaner and remove code smells.
