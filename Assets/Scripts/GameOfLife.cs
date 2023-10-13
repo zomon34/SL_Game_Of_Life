@@ -20,14 +20,12 @@ public class GameOfLife : MonoBehaviour
 
     List<int> savedAliveCounts = new List<int>();
 
-    // TODO for final week: Go through each comment in all files.
-    // Focus will be to make the code cleaner and remove code smells.
-    // Also make repo public and update Readme
-
     void Awake()
     {
         width = Camera.main.orthographicSize * Camera.main.aspect;
         height = Camera.main.orthographicSize;
+
+        Time.timeScale = targetSpeed;
 
         numberOfColumns = (int)Mathf.Floor(width * 2 / cellSize);
         numberOfRows = (int)Mathf.Floor(height * 2 / cellSize);
