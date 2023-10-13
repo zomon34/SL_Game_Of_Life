@@ -1,5 +1,6 @@
 # SL_Game_Of_Life
  
+### Features & Controls:
 Click on one of the buttons to select a preselected shape or to toggle.
 
 Click on cells to spawn the selected shape or toggle the cell you clicked on.
